@@ -9,6 +9,18 @@
 set -o errexit
 set -o pipefail
 
+function ysf2p25tg()
+{
+y1=$(sed -nr "/^\[Network]/ { :1 /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/p25gateway)
+y2=$(sed -nr "/^\[Network]/ { :1 /^Startup[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ysfgateway)
+echo "$y1"
+echo "$y2"
+
+}
+ysf2p25tg
+exit
+
+
 #m1=$(sudo cat /etc/mmdvmhost | grep "\[D-Star\]" -A 1 | grep "Enable=" | cut -b 8-9)
 m1=$(sed -nr "/^\[D-Star]/ { :1 /^Enable[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/mmdvmhost)
 
